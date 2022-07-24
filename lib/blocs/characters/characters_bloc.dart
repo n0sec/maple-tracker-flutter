@@ -18,7 +18,7 @@ class CharactersBloc extends Bloc<CharactersEvent, CharactersState> {
 
   void _onLoadCharacters(LoadCharacters event, Emitter<CharactersState> emit) {
     emit(
-      CharactersLoaded(characters: event.characters),
+      CharactersLoaded(characters: event.characters, selectedCharacter: null),
     );
   }
 
@@ -26,7 +26,7 @@ class CharactersBloc extends Bloc<CharactersEvent, CharactersState> {
     final state = this.state;
     if (state is CharactersLoaded) {
       emit(
-        CharactersLoaded(
+        state.copyWith(
           characters: List.from(state.characters)..add(event.character),
         ),
       );
@@ -38,7 +38,7 @@ class CharactersBloc extends Bloc<CharactersEvent, CharactersState> {
     final state = this.state;
     if (state is CharactersLoaded) {
       emit(
-        CharactersLoaded(
+        state.copyWith(
           characters: List.from(state.characters)..remove(event.character),
         ),
       );
@@ -48,9 +48,9 @@ class CharactersBloc extends Bloc<CharactersEvent, CharactersState> {
   void _onSelectCharacter(
       SelectCharacter event, Emitter<CharactersState> emit) {
     final state = this.state;
-    if (state is CharacterSelected) {
+    if (state is CharactersLoaded) {
       emit(
-        CharacterSelected(state.selectedCharacter),
+        state.copyWith(selectedCharacter: event.character),
       );
     }
   }
@@ -59,9 +59,18 @@ class CharactersBloc extends Bloc<CharactersEvent, CharactersState> {
       UpdateCharacter event, Emitter<CharactersState> emit) {
     final state = this.state;
     if (state is CharactersLoaded) {
-      final updatedCharacter =
-          event.characterToUpdate.copyWith(name: event.newCharacterName);
-      emit(state.copyWith(character: updatedCharacter));
+      final characters = state.characters.toList();
+      final characterToUpdateIndex =
+          characters.indexOf(event.characterToUpdate);
+      if (characterToUpdateIndex.isNegative) return;
+      final newCharacter = characters[characterToUpdateIndex]
+          .copyWith(name: event.newCharacterName);
+      characters[characterToUpdateIndex] = newCharacter;
+      emit(
+        state.copyWith(
+          characters: characters,
+        ),
+      );
     }
   }
 }

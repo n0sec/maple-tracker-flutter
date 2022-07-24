@@ -5,34 +5,29 @@ abstract class CharactersState extends Equatable {
   const CharactersState();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class CharactersLoading extends CharactersState {}
 
 class CharactersLoaded extends CharactersState {
+  const CharactersLoaded({
+    this.characters = const <Character>[],
+    this.selectedCharacter,
+  });
   final List<Character> characters;
-
-  const CharactersLoaded({this.characters = const <Character>[]});
-
-  @override
-  List<Object> get props => [characters];
-}
-
-class CharacterSelected extends CharactersState {
-  final Character selectedCharacter;
-
-  const CharacterSelected(this.selectedCharacter);
+  final Character? selectedCharacter;
 
   @override
-  List<Object> get props => [selectedCharacter];
-}
+  List<Object?> get props => [characters, selectedCharacter];
 
-class CharacterUpdated extends CharactersState {
-  final Character updatedCharacter;
-
-  const CharacterUpdated(this.updatedCharacter);
-
-  @override
-  List<Object> get props => [updatedCharacter];
+  CharactersLoaded copyWith({
+    List<Character>? characters,
+    Character? selectedCharacter,
+  }) {
+    return CharactersLoaded(
+      characters: characters ?? this.characters,
+      selectedCharacter: selectedCharacter ?? this.selectedCharacter,
+    );
+  }
 }
