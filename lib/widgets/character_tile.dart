@@ -17,8 +17,8 @@ class CharacterTile extends StatelessWidget {
         elevation: 2,
         child: InkWell(
           borderRadius: BorderRadius.circular(10),
-          splashColor: Color(character.mapleClass.color),
-          highlightColor: Color(character.mapleClass.color),
+          splashColor: Color(character.mapleClass.classColor),
+          highlightColor: Color(character.mapleClass.classColor),
           onTap: () {
             print('tapped');
           },
@@ -34,7 +34,11 @@ class CharacterTile extends StatelessWidget {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Image.asset(character.mapleClass.assetPath),
+                  child: Image.asset(
+                    character.mapleClass.assetPath,
+                    width: 100,
+                    height: 104,
+                  ),
                 ),
                 Expanded(
                   child: Padding(
@@ -51,11 +55,11 @@ class CharacterTile extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          character.mapleClass.label,
+                          character.mapleClass.className,
                           style: TextStyle(
                             fontSize: 14,
                             // fontStyle: FontStyle.italic,
-                            color: Color(character.mapleClass.color),
+                            color: Color(character.mapleClass.classColor),
                           ),
                         ),
                       ],

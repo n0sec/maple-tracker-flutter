@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:maple_tracker_flutter/blocs/characters/characters_bloc.dart';
 
 import 'screens/character_select_screen.dart';
 import 'screens/daily_arcane_river_screen.dart';
@@ -20,43 +22,50 @@ class MapleTrackerApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        primarySwatch: Colors.orange,
-        primaryColor: const Color(0xfff97316),
-        appBarTheme: const AppBarTheme(
-          color: Color(0xfff97316),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => CharactersBloc()..add(const LoadCharacters()),
         ),
-        textTheme: GoogleFonts.latoTextTheme(),
+      ],
+      child: MaterialApp(
+        theme: ThemeData(
+          primarySwatch: Colors.orange,
+          primaryColor: const Color(0xfff97316),
+          appBarTheme: const AppBarTheme(
+            color: Color(0xfff97316),
+          ),
+          textTheme: GoogleFonts.latoTextTheme(),
+        ),
+        initialRoute: '/character-select',
+        routes: {
+          '/summary': (context) => const SummaryScreen(
+                title: 'Summary',
+              ),
+          '/settings': (context) => const SettingsScreen(
+                title: 'Settings',
+              ),
+          '/character-select': (context) => const CharacterSelectScreen(
+                title: 'Character Select',
+              ),
+          '/daily-bosses': (context) => const DailyBossesScreen(
+                title: 'Daily Bosses',
+              ),
+          '/daily-tasks': (context) => const DailyTasksScreen(
+                title: 'Daily Tasks',
+              ),
+          '/daily-arcane-river': (context) => const DailyArcaneRiverScreen(
+                title: 'Daily Arcane River',
+              ),
+          '/weekly-bosses': (context) => const WeeklyBossesScreen(
+                title: 'Weekly Bosses',
+              ),
+          '/weekly-tasks': (context) => const WeeklyTasksScreen(
+                title: 'Weekly Tasks',
+              ),
+        },
+        debugShowCheckedModeBanner: false,
       ),
-      initialRoute: '/character-select',
-      routes: {
-        '/summary': (context) => const SummaryScreen(
-              title: 'Summary',
-            ),
-        '/settings': (context) => const SettingsScreen(
-              title: 'Settings',
-            ),
-        '/character-select': (context) => const CharacterSelectScreen(
-              title: 'Character Select',
-            ),
-        '/daily-bosses': (context) => const DailyBossesScreen(
-              title: 'Daily Bosses',
-            ),
-        '/daily-tasks': (context) => const DailyTasksScreen(
-              title: 'Daily Tasks',
-            ),
-        '/daily-arcane-river': (context) => const DailyArcaneRiverScreen(
-              title: 'Daily Arcane River',
-            ),
-        '/weekly-bosses': (context) => const WeeklyBossesScreen(
-              title: 'Weekly Bosses',
-            ),
-        '/weekly-tasks': (context) => const WeeklyTasksScreen(
-              title: 'Weekly Tasks',
-            ),
-      },
-      debugShowCheckedModeBanner: false,
     );
   }
 }

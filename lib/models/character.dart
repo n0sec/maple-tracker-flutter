@@ -1,17 +1,20 @@
+import 'package:equatable/equatable.dart';
+
 import 'activity.dart';
 
-class Character {
-  String name;
-  MapleClass mapleClass = MapleClass.adele;
-  bool isFavorite = false;
-  List<Activity> completedDailyBosses = [];
-  List<Activity> completedDailyTasks = [];
-  List<Activity> completedDailyArcaneRiver = [];
-  List<Activity> completedWeeklyBosses = [];
-  List<Activity> completedWeeklyTasks = [];
+class Character extends Equatable {
+  final String name;
+  final MapleClass
+      mapleClass; // Provides the class name, asset path and class color
+  final bool isFavorite;
+  final Set<Activity> completedDailyBosses;
+  final Set<Activity> completedDailyTasks;
+  final Set<Activity> completedDailyArcaneRiver;
+  final Set<Activity> completedWeeklyBosses;
+  final Set<Activity> completedWeeklyTasks;
 
-  String get classLabel {
-    return mapleClass.label;
+  String get className {
+    return mapleClass.className;
   }
 
   String get assetPath {
@@ -19,18 +22,59 @@ class Character {
   }
 
   int get classColor {
-    return mapleClass.color;
+    return mapleClass.classColor;
   }
 
-  Character(
-      {required this.name,
-      required this.mapleClass,
-      required this.isFavorite,
-      required this.completedDailyBosses,
-      required this.completedDailyTasks,
-      required this.completedDailyArcaneRiver,
-      required this.completedWeeklyBosses,
-      required this.completedWeeklyTasks});
+  const Character({
+    required this.name,
+    required this.mapleClass,
+    required this.isFavorite,
+    required this.completedDailyBosses,
+    required this.completedDailyTasks,
+    required this.completedDailyArcaneRiver,
+    required this.completedWeeklyBosses,
+    required this.completedWeeklyTasks,
+  });
+
+  @override
+  List<Object?> get props => [
+        name,
+        mapleClass,
+        isFavorite,
+        completedDailyBosses,
+        completedDailyTasks,
+        completedDailyArcaneRiver,
+        completedWeeklyBosses,
+        completedWeeklyTasks
+      ];
+
+  @override
+  bool get stringify => true;
+
+  // Creates a copy of the current Character with property changes
+  Character copyWith({
+    String? name,
+    MapleClass? mapleClass,
+    bool? isFavorite,
+    Set<Activity>? completedDailyBosses,
+    Set<Activity>? completedDailyTasks,
+    Set<Activity>? completedDailyArcaneRiver,
+    Set<Activity>? completedWeeklyBosses,
+    Set<Activity>? completedWeeklyTasks,
+  }) {
+    return Character(
+      name: name ?? this.name,
+      mapleClass: mapleClass ?? this.mapleClass,
+      isFavorite: isFavorite ?? this.isFavorite,
+      completedDailyBosses: completedDailyBosses ?? this.completedDailyBosses,
+      completedDailyTasks: completedDailyTasks ?? this.completedDailyTasks,
+      completedDailyArcaneRiver:
+          completedDailyArcaneRiver ?? this.completedDailyArcaneRiver,
+      completedWeeklyBosses:
+          completedWeeklyBosses ?? this.completedWeeklyBosses,
+      completedWeeklyTasks: completedWeeklyTasks ?? this.completedWeeklyTasks,
+    );
+  }
 }
 
 enum MapleClass {
@@ -97,8 +141,8 @@ enum MapleClass {
   xenon('Xenon', 'assets/images/classes/xenon.webp', 0xff76bce0),
   zero('Zero', 'assets/images/classes/zero.webp', 0xff9e3030);
 
-  const MapleClass(this.label, this.assetPath, this.color);
-  final String label;
+  const MapleClass(this.className, this.assetPath, this.classColor);
+  final String className;
   final String assetPath;
-  final int color;
+  final int classColor;
 }

@@ -1,18 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:maple_tracker_flutter/widgets/character_creation_bottom_sheet.dart';
-import 'package:maple_tracker_flutter/widgets/character_tile.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../models/character.dart';
-
-Character newCharacter = Character(
-    name: 'KrazzyJManXx',
-    mapleClass: MapleClass.pathfinder,
-    isFavorite: false,
-    completedDailyArcaneRiver: [],
-    completedDailyBosses: [],
-    completedDailyTasks: [],
-    completedWeeklyBosses: [],
-    completedWeeklyTasks: []);
+import '../blocs/characters/characters_bloc.dart';
+import '../widgets/character_creation_bottom_sheet.dart';
+import '../widgets/character_tile.dart';
 
 class CharacterSelectScreen extends StatelessWidget {
   const CharacterSelectScreen({Key? key, required this.title})
@@ -116,7 +107,26 @@ class CharacterSelectScreen extends StatelessWidget {
           color: Colors.white,
         ),
       ),
-      body: CharacterTile(character: newCharacter),
+      body: BlocBuilder<CharactersBloc, CharactersState>(
+        builder: (context, state) {
+          if (state is CharactersLoading) {
+            return CircularProgressIndicator(
+              color: Theme.of(context).primaryColor,
+            );
+          }
+          if (state is CharactersLoaded) {
+            return ListView.builder(
+                itemCount: state.characters.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return CharacterTile(character: state.characters[index]);
+                });
+          } else {
+            return const Center(
+              child: Text('Oops! There was a problem loading the characters.'),
+            );
+          }
+        },
+      ),
     );
   }
 }
