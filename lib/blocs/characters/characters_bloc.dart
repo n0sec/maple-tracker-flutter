@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
+import '../../models/activity.dart';
 import '../../models/character.dart';
 
 part 'characters_event.dart';
@@ -14,6 +15,7 @@ class CharactersBloc extends Bloc<CharactersEvent, CharactersState> {
     on<DeleteCharacter>(_onDeleteCharacter);
     on<SelectCharacter>(_onSelectCharacter);
     on<UpdateCharacter>(_onUpdateCharacter);
+    on<CompleteDailyBoss>(_onCompleteDailyBoss);
   }
 
   void _onLoadCharacters(LoadCharacters event, Emitter<CharactersState> emit) {
@@ -71,6 +73,18 @@ class CharactersBloc extends Bloc<CharactersEvent, CharactersState> {
           characters: characters,
         ),
       );
+    }
+  }
+
+  void _onCompleteDailyBoss(
+      CompleteDailyBoss event, Emitter<CharactersState> emit) {
+    final state = this.state;
+    if (state is CharactersLoaded) {
+      event.characterToUpdate.copyWith(completedDailyBosses: {
+        event.completedBoss,
+        ...?state.selectedCharacter?.completedDailyBosses
+      });
+      emit(state.copyWith(selectedCharacter: event.characterToUpdate));
     }
   }
 }

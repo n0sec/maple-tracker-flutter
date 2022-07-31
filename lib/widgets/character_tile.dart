@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:maple_tracker_flutter/blocs/characters/characters_bloc.dart';
 
 import '../models/character.dart';
 import 'character_bottom_sheet.dart';
@@ -20,7 +22,10 @@ class CharacterTile extends StatelessWidget {
           splashColor: Color(character.mapleClass.classColor),
           highlightColor: Color(character.mapleClass.classColor),
           onTap: () {
-            print('tapped');
+            context.read<CharactersBloc>().add(
+                  SelectCharacter(character: character),
+                );
+            Navigator.pushReplacementNamed(context, '/summary');
           },
           onLongPress: () {
             showModalBottomSheet(
@@ -75,7 +80,9 @@ class CharacterTile extends StatelessWidget {
                         Icons.favorite_border_outlined,
                         size: 28,
                       ),
-                      onTap: () => {print('Favorite clicked')},
+                      onTap: () => {
+                        print('Favorite clicked'),
+                      },
                     ),
                   ),
                 ),

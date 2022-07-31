@@ -7,11 +7,15 @@ class Character extends Equatable {
   final MapleClass
       mapleClass; // Provides the class name, asset path and class color
   final bool isFavorite;
-  final Set<Activity> completedDailyBosses;
-  final Set<Activity> completedDailyTasks;
-  final Set<Activity> completedDailyArcaneRiver;
-  final Set<Activity> completedWeeklyBosses;
-  final Set<Activity> completedWeeklyTasks;
+  final Set<Task> completedDailyBosses;
+  final Set<Task> incompleteDailyBosses;
+  final Set<Task> completedDailyTasks;
+  final Set<Task> incompleteDailyTasks;
+  final Set<Task> completedDailyArcaneRiver;
+  final Set<Task> incompleteDailyArcaneRiver;
+  final Set<Task> completedWeeklyBosses;
+  final Set<Task> incompleteWeeklyBosses;
+  final Set<Task> completedWeeklyTasks;
 
   String get className {
     return mapleClass.className;
@@ -25,7 +29,7 @@ class Character extends Equatable {
     return mapleClass.classColor;
   }
 
-  const Character({
+  Character({
     required this.name,
     required this.mapleClass,
     required this.isFavorite,
@@ -34,7 +38,18 @@ class Character extends Equatable {
     required this.completedDailyArcaneRiver,
     required this.completedWeeklyBosses,
     required this.completedWeeklyTasks,
-  });
+  })  : incompleteDailyBosses = Task.values
+            .where((task) => task.taskType == TaskType.dailyBoss)
+            .toSet(),
+        incompleteDailyTasks = Task.values
+            .where((task) => task.taskType == TaskType.dailyTask)
+            .toSet(),
+        incompleteDailyArcaneRiver = Task.values
+            .where((task) => task.taskType == TaskType.dailyArcaneRiver)
+            .toSet(),
+        incompleteWeeklyBosses = Task.values
+            .where((task) => task.taskType == TaskType.weeklyBoss)
+            .toSet();
 
   @override
   List<Object?> get props => [
@@ -56,11 +71,11 @@ class Character extends Equatable {
     String? name,
     MapleClass? mapleClass,
     bool? isFavorite,
-    Set<Activity>? completedDailyBosses,
-    Set<Activity>? completedDailyTasks,
-    Set<Activity>? completedDailyArcaneRiver,
-    Set<Activity>? completedWeeklyBosses,
-    Set<Activity>? completedWeeklyTasks,
+    Set<Task>? completedDailyBosses,
+    Set<Task>? completedDailyArcaneRiver,
+    Set<Task>? completedDailyTasks,
+    Set<Task>? completedWeeklyBosses,
+    Set<Task>? completedWeeklyTasks,
   }) {
     return Character(
       name: name ?? this.name,

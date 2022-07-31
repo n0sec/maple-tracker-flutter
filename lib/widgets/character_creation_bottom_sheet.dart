@@ -103,17 +103,18 @@ class _CharacterCreationBottomSheetState
                       );
                     } else {
                       var createdCharacter = Character(
-                          name: _characterNameController.text,
-                          mapleClass: _dropdownValue,
-                          isFavorite: false,
-                          completedDailyBosses: {},
-                          completedDailyTasks: {},
-                          completedDailyArcaneRiver: {},
-                          completedWeeklyBosses: {},
-                          completedWeeklyTasks: {});
-                      context
-                          .read<CharactersBloc>()
-                          .add(AddCharacter(character: createdCharacter));
+                        name: _characterNameController.text,
+                        mapleClass: _dropdownValue,
+                        isFavorite: false,
+                        completedDailyBosses: const {},
+                        completedDailyTasks: const {},
+                        completedDailyArcaneRiver: const {},
+                        completedWeeklyBosses: const {},
+                        completedWeeklyTasks: const {},
+                      );
+                      context.read<CharactersBloc>().add(
+                            AddCharacter(character: createdCharacter),
+                          );
                       // _characterNameController.dispose();
                       Navigator.of(context).pop();
                     }

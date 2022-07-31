@@ -58,8 +58,16 @@ class _EditCharacterScreenState extends State<EditCharacterScreen> {
                         newCharacterName: _editCharacterNameController.text));
                     Navigator.pop(context);
                   },
-                  style: ButtonStyle(), // TODO: Edit button style later
-                  child: const Text('Submit'),
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all<Color>(
+                        Theme.of(context).primaryColor),
+                  ),
+                  child: const Text(
+                    'Submit',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
               ),
             ],

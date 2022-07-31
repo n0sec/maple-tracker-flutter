@@ -7,6 +7,17 @@ class DailyTasksScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      appBar: AppBar(
+        iconTheme: const IconThemeData(color: Colors.white),
+        backgroundColor: Theme.of(context).primaryColor,
+        title: Text(
+          title,
+          style: const TextStyle(color: Colors.white),
+        ),
+        actions: const [],
+      ),
+      body: const Text('Help'),
+    );
   }
 }

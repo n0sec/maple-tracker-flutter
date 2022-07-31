@@ -54,3 +54,14 @@ class UpdateCharacter extends CharactersEvent {
   @override
   List<Object> get props => [characterToUpdate, newCharacterName];
 }
+
+class CompleteDailyBoss extends CharactersEvent {
+  final Character characterToUpdate; // Should be the selected character
+  final Task completedBoss;
+
+  const CompleteDailyBoss(
+      {required this.characterToUpdate, required this.completedBoss});
+
+  @override
+  List<Object> get props => [characterToUpdate, completedBoss];
+}

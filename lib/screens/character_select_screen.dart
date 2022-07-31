@@ -32,61 +32,7 @@ class CharacterSelectScreen extends StatelessWidget {
           ),
         ],
       ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor,
-              ),
-              child: const Text(
-                'Menu',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                ),
-              ),
-            ),
-            const ListTile(
-              leading: Icon(Icons.message),
-              title: Text('Summary'),
-            ),
-            const ListTile(
-              leading: Icon(Icons.message),
-              title: Text('Character Select'),
-            ),
-            const Divider(
-              thickness: 0,
-            ),
-            const Text('Dailies'),
-            const ListTile(
-              leading: Icon(Icons.message),
-              title: Text('Bosses'),
-            ),
-            const ListTile(
-              leading: Icon(Icons.account_circle),
-              title: Text('Tasks'),
-            ),
-            const ListTile(
-              leading: Icon(Icons.settings),
-              title: Text('Arcane River'),
-            ),
-            const Divider(
-              thickness: 0,
-            ),
-            const Text('Weeklies'),
-            const ListTile(
-              leading: Icon(Icons.settings),
-              title: Text('Bosses'),
-            ),
-            const ListTile(
-              leading: Icon(Icons.settings),
-              title: Text('Tasks'),
-            ),
-          ],
-        ),
-      ),
+      // drawer: const MenuDrawer(),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).primaryColor,
         onPressed: () {
@@ -116,10 +62,11 @@ class CharacterSelectScreen extends StatelessWidget {
           }
           if (state is CharactersLoaded) {
             return ListView.builder(
-                itemCount: state.characters.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return CharacterTile(character: state.characters[index]);
-                });
+              itemCount: state.characters.length,
+              itemBuilder: (BuildContext context, int index) {
+                return CharacterTile(character: state.characters[index]);
+              },
+            );
           } else {
             return const Center(
               child: Text('Oops! There was a problem loading the characters.'),
